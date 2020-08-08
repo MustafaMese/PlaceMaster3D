@@ -7,7 +7,10 @@ public class CubeController : MonoBehaviour
 {
     [SerializeField] float fallTime = 0f;
     [SerializeField] Ease fallEase;
+
     private Board board;
+    private Direction direction;
+    private Tile tile;
 
     void Start()
     {
@@ -16,8 +19,9 @@ public class CubeController : MonoBehaviour
 
     public void Fall(Vector3 target)
     {
-        Direction d = GetDirection(target);
-        Vector3 nextPosition = GetNextPosition(d);
+        SetTile(target);
+        direction = tile.GetDirection();
+        Vector3 nextPosition = GetNextPosition(direction);
 
         if(nextPosition != Vector3.zero)
             transform.DOMove(target, fallTime).SetEase(fallEase).OnComplete(() => Move(nextPosition));
@@ -27,13 +31,17 @@ public class CubeController : MonoBehaviour
 
     private void Move(Vector3 target)
     {
-        Direction d = GetDirection(target);
-        Vector3 nextPosition = GetNextPosition(d);
-
-        if(nextPosition != Vector3.zero)
-            transform.DOJump(target, 1f, 1f, 1f).OnComplete(() => Move(nextPosition));
+        SetTile(target);
+        if (tile != null)
+        {
+            Vector3 nextPosition = GetNextPosition(direction);
+            transform.DOJump(target, 1f, 1, 0.5f).OnComplete(() => Move(nextPosition));
+        }
         else
-            print("Boşluğa atlayacaksın");
+        {
+            print("Boşluk");
+            transform.DOJump(new Vector3(target.x, -1f, target.z), 3f, 1, 1f);
+        }
     }
 
     public void SetBoard(Board board)
@@ -41,38 +49,31 @@ public class CubeController : MonoBehaviour
         this.board = board;
     }
 
-    private Direction GetDirection(Vector3 target)
+    private void SetTile(Vector3 target)
     {
-        Vector3 tilePos = new Vector3(target.x, target.y - 1f, target.z);
-        Tile t = board.GetTile(tilePos);
-        if(t != null)
-        {
-            Direction d = t.GetDirection();
-            return d;
-        }
-        else
-            return Direction.NONE;
+        Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+        tile = board.GetTile(tilePos);
     }
 
     private Vector3 GetNextPosition(Direction d)
     {
-        Vector3 currentPosition = transform.position;
+        Vector3 currentPosition = tile.transform.position;
         Vector3 nextPosition = Vector3.zero;
         switch(d)
         {
             case Direction.NONE:
                 break;
             case Direction.FORWARD:
-                nextPosition = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z + 1f);
+                nextPosition = new Vector3(currentPosition.x, 1f, currentPosition.z + 1f);
                 break;
             case Direction.BACKWARD:
-                nextPosition = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z - 1f);
+                nextPosition = new Vector3(currentPosition.x, 1f, currentPosition.z - 1f);
                 break;
             case Direction.RIGHT:
-                nextPosition = new Vector3(currentPosition.x + 1f, currentPosition.y, currentPosition.z);
+                nextPosition = new Vector3(currentPosition.x + 1f, 1f, currentPosition.z);
                 break;
             case Direction.LEFT:
-                nextPosition = new Vector3(currentPosition.x - 1f, currentPosition.y, currentPosition.z);
+                nextPosition = new Vector3(currentPosition.x - 1f, 1f, currentPosition.z);
                 break;
         }
 

@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public struct TileTable
 {
-    Tile tile;
-    Vector3 position;
+    public Tile tile;
+    public Vector3 position;
 
     public TileTable(Tile tile, Vector3 position)
     {
