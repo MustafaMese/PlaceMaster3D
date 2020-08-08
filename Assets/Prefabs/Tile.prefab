@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8119785292446954564}
   - component: {fileID: 5116263065938230241}
   - component: {fileID: 6981821249213304619}
+  - component: {fileID: 795972982583536710}
   m_Layer: 8
-  m_Name: Glowing Cube
+  m_Name: Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b8922efc2d7574a458cdf265b99abf36, type: 2}
+  - {fileID: 2100000, guid: f3ba10e4f36e05f439d06053ffcd917f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,3 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &795972982583536710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927424323376754430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cde0f334a86240a4a87c5820c5f36f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glow: 0
+  glowMaterial: {fileID: 2100000, guid: b8922efc2d7574a458cdf265b99abf36, type: 2}
+  normalMaterial: {fileID: 2100000, guid: 2fdb9e984b21a984997f82ebb3a69a57, type: 2}
+  renderer: {fileID: 0}
