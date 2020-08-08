@@ -5,36 +5,58 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     public static Board Instance = null;
-
-    [System.Serializable]
-    public struct TileTable
-    {
-        Tile tile;
-        Vector3 position;
-
-        public TileTable(Tile tile, Vector3 position)
-        {
-            this.tile = tile;
-            this.position = position;
-        }
-
-        public Tile GetTile()
-        {
-            return tile;
-        }
-
-        public Vector3 GetPosition()
-        {
-            return position;
-        }
-    }
-
+    [SerializeField] CubeController cubeControllerPrefab;
+    private CubeController cubeController;
     public List<TileTable> tiles = new List<TileTable>();
-
+    public bool isTouched = false;
+    
     private void Awake()
     {
         Instance = this;
+        
+    }
+
+    private void Start()
+    {
         InitializeTiles();
+    }
+
+    private void Update() 
+    {
+        if (Input.GetMouseButtonDown(0) && !isTouched)
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit, 100.0f))
+            {
+                if (hit.transform.CompareTag("Tile"))
+                {
+                    Tile tile = hit.transform.GetComponent<Tile>();
+                    if(tile.IsAvaible())
+                    {
+                        isTouched = true;
+                        cubeController = InitializePlayerCube(tile.transform.position);
+                        StartMove();
+                    }
+                }
+            }
+        }
+    }
+
+    private void StartMove()
+    {
+        Vector3 cubeStartPoint = cubeController.transform.position;
+        Vector3 cubeEndPoint = new Vector3(cubeStartPoint.x, cubeStartPoint.y - 4f, cubeStartPoint.z);
+        cubeController.Fall(cubeEndPoint);
+    }
+
+    private CubeController InitializePlayerCube(Vector3 tilePosition)
+    {
+        CubeController controller;
+        Vector3 cubeStartPoint = new Vector3(tilePosition.x, tilePosition.y + 5f, tilePosition.z);
+        controller = Instantiate(cubeControllerPrefab, cubeStartPoint, Quaternion.identity);
+        controller.SetBoard(this);
+        return controller;
     }
 
     private void InitializeTiles()
@@ -55,4 +77,13 @@ public class Board : MonoBehaviour
         tiles.Add(t);
     }
 
+    public Tile GetTile(Vector3 pos)
+    {
+        for(int i = 0; i < tiles.Count; i++)
+        {
+            if(tiles[i].GetPosition() == pos)
+                return tiles[i].GetTile(); 
+        }
+        return null;
+    }
 }

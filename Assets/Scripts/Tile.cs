@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] bool glow;
+    [SerializeField] bool isAvaible;
     [SerializeField] Material glowMaterial;
     [SerializeField] Material normalMaterial;
-
     [SerializeField] MeshRenderer renderer;
+
+    [SerializeField] Direction direction = Direction.NONE;
 
     private void Start() 
     {
@@ -18,10 +19,20 @@ public class Tile : MonoBehaviour
 
     private void SetGlow()
     {
-        if(glow)
+        if(isAvaible)
             renderer.material = glowMaterial;
         else
             renderer.material = normalMaterial;
+    }
 
+    public bool IsAvaible()
+    {
+        return isAvaible;
+    }
+
+    public Direction GetDirection()
+    {
+        return direction;
     }
 }
+
