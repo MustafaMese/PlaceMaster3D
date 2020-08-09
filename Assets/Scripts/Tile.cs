@@ -1,12 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Tile : MonoBehaviour
 {
-    [SerializeField] bool isAvaible;
+    [SerializeField] bool isAvaibleToPut;
+    [SerializeField] bool isTransparent;
     [SerializeField] Material glowMaterial;
     [SerializeField] Material normalMaterial;
+    [SerializeField] Material transparentMaterial;
     [SerializeField] MeshRenderer renderer;
 
     [SerializeField] Direction direction = Direction.NONE;
@@ -15,19 +19,30 @@ public class Tile : MonoBehaviour
     {
         renderer = GetComponent<MeshRenderer>();
         SetGlow();
+        SetTransparent();
     }
-
-    private void SetGlow()
+    public void SetGlow()
     {
-        if(isAvaible)
+        if(isAvaibleToPut)
             renderer.material = glowMaterial;
         else
             renderer.material = normalMaterial;
     }
 
-    public bool IsAvaible()
+    public bool IsTransparent()
     {
-        return isAvaible;
+        return isTransparent;
+    }
+    
+    public void SetTransparent()
+    {
+        if (isTransparent)
+            renderer.material = transparentMaterial;
+    }
+
+    public bool IsAvaibleToPut()
+    {
+        return isAvaibleToPut;
     }
 
     public Direction GetDirection()

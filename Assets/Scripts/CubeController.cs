@@ -8,6 +8,9 @@ public class CubeController : MonoBehaviour
     [SerializeField] float fallTime = 0f;
     [SerializeField] Ease fallEase;
 
+    [SerializeField] private float jumpPower = 1f;
+    [SerializeField] private float moveTime = 1f;
+    
     private Board board;
     private Direction direction;
     private Tile tile;
@@ -26,7 +29,7 @@ public class CubeController : MonoBehaviour
         if(nextPosition != Vector3.zero)
             transform.DOMove(target, fallTime).SetEase(fallEase).OnComplete(() => Move(nextPosition));
         else
-            print("Boşluğa atlayacaksın");
+            transform.DOMove(target, fallTime).SetEase(fallEase).OnComplete(() => FallToVoid());
     }
 
     private void Move(Vector3 target)
@@ -34,16 +37,38 @@ public class CubeController : MonoBehaviour
         SetTile(target);
         if (tile != null)
         {
-            Vector3 nextPosition = GetNextPosition(direction);
-            transform.DOJump(target, 1f, 1, 0.5f).OnComplete(() => Move(nextPosition));
+            bool transparency = tile.IsTransparent();
+            if (!transparency)
+            {
+                // Diğer pozisyona ilerle.
+                Vector3 nextPosition = GetNextPosition(direction);
+                transform.DOJump(target, jumpPower, 1, moveTime).OnComplete(() => Move(nextPosition));
+            }
+            else
+            {
+                // Boşluğa yerleş.
+                Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+                transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FillSpace());
+                // Yerleştin.
+            }
         }
         else
         {
-            print("Boşluk");
-            transform.DOJump(new Vector3(target.x, -1f, target.z), 3f, 1, 1f);
+            Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+            transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FallToVoid());
         }
     }
 
+    private void FallToVoid()
+    {
+        print("Boşluğa Düştün");
+    }
+    
+    private void FillSpace()
+    {
+        print("Boşluğa yerleştin");
+    }
+    
     public void SetBoard(Board board)
     {
         this.board = board;

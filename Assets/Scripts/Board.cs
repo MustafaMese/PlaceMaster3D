@@ -13,7 +13,6 @@ public class Board : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        
     }
 
     private void Start()
@@ -32,7 +31,7 @@ public class Board : MonoBehaviour
                 if (hit.transform.CompareTag("Tile"))
                 {
                     Tile tile = hit.transform.GetComponent<Tile>();
-                    if(tile.IsAvaible())
+                    if(tile.IsAvaibleToPut())
                     {
                         isTouched = true;
                         cubeController = InitializePlayerCube(tile.transform.position);

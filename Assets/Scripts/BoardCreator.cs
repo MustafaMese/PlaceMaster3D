@@ -55,4 +55,14 @@ public class BoardCreator : MonoBehaviour
         }
         board.tiles.Clear();
     }
+
+    public int GetRowLength()
+    {
+        return rowLength;
+    }
+
+    public int GetColLength()
+    {
+        return colLength;
+    }
 }
