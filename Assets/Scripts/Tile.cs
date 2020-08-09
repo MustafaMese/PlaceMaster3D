@@ -6,27 +6,27 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    [SerializeField] bool isAvaibleToPut;
-    [SerializeField] bool isTransparent;
-    [SerializeField] Material glowMaterial;
-    [SerializeField] Material normalMaterial;
-    [SerializeField] Material transparentMaterial;
-    [SerializeField] MeshRenderer renderer;
+    [SerializeField] bool isAvaibleToPut = false;
+    [SerializeField] bool isTransparent = false;
+    [SerializeField] Material glowMaterial = null;
+    [SerializeField] Material normalMaterial = null;
+    [SerializeField] Material transparentMaterial = null;
+    [SerializeField] MeshRenderer meshRenderer = null;
 
     [SerializeField] Direction direction = Direction.NONE;
 
     private void Start() 
     {
-        renderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponent<MeshRenderer>();
         SetGlow();
         SetTransparent();
     }
     public void SetGlow()
     {
         if(isAvaibleToPut)
-            renderer.material = glowMaterial;
+            meshRenderer.material = glowMaterial;
         else
-            renderer.material = normalMaterial;
+            meshRenderer.material = normalMaterial;
     }
 
     public bool IsTransparent()
@@ -37,7 +37,7 @@ public class Tile : MonoBehaviour
     public void SetTransparent()
     {
         if (isTransparent)
-            renderer.material = transparentMaterial;
+            meshRenderer.material = transparentMaterial;
     }
 
     public bool IsAvaibleToPut()

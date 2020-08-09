@@ -3114,9 +3114,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28afbcc3491001a48809665a6ec7f1e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coordinate: {x: 0, y: 0, z: 0}
+  coordinate: {x: -1, y: -1, z: -1}
   cubePrefab: {fileID: 0}
   create: 0
+  boardCreator: {fileID: 1765776221}
 --- !u!1 &1899944642
 GameObject:
   m_ObjectHideFlags: 0

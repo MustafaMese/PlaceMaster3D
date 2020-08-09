@@ -8,6 +8,7 @@ public class Board : MonoBehaviour
     [SerializeField] CubeController cubeControllerPrefab;
     private CubeController cubeController;
     public List<TileTable> tiles = new List<TileTable>();
+    public List<CubeTable> cubes = new List<CubeTable>();
     public bool isTouched = false;
     
     private void Awake()
@@ -18,6 +19,7 @@ public class Board : MonoBehaviour
     private void Start()
     {
         InitializeTiles();
+        InitializeCubes();
     }
 
     private void Update() 
@@ -58,6 +60,19 @@ public class Board : MonoBehaviour
         return controller;
     }
 
+    private void InitializeCubes()
+    {
+        List<EffectorCube> c = new List<EffectorCube>( FindObjectsOfType<EffectorCube>());
+        for (int i = 0; i < c.Count; i++)
+        {
+            EffectorCube cube = c[i];
+            Transform cubeT = cube.transform;
+            cubeT.SetParent(this.transform);
+            CubeTable ct = new CubeTable(cube, cubeT.position);
+            cubes.Add(ct);
+        }
+    }
+    
     private void InitializeTiles()
     {
         var count = transform.childCount;

@@ -8,11 +8,10 @@ public class CubePlacer : MonoBehaviour
 {
     private Vector3 defaultCoordinate = new Vector3(-1, -1, -1);
     
-    [SerializeField] private Vector3 coordinate;
-    [SerializeField] private EffectorCube cubePrefab;
+    [SerializeField] private Vector3 coordinate = Vector3.zero;
+    [SerializeField] private EffectorCube cubePrefab = null;
     [SerializeField] private bool create = false;
-
-    private BoardCreator boardCreator;
+    [SerializeField] private BoardCreator boardCreator = null;
     private void Update()
     {
         if (create)
