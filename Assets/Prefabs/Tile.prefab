@@ -99,7 +99,7 @@ MonoBehaviour:
   glowMaterial: {fileID: 2100000, guid: b8922efc2d7574a458cdf265b99abf36, type: 2}
   normalMaterial: {fileID: 2100000, guid: 2fdb9e984b21a984997f82ebb3a69a57, type: 2}
   transparentMaterial: {fileID: 2100000, guid: bf88ff8a15010b042b74215a233e6417, type: 2}
-  renderer: {fileID: 6981821249213304619}
+  meshRenderer: {fileID: 6981821249213304619}
   direction: -1
 --- !u!65 &-1621412071442617289
 BoxCollider:

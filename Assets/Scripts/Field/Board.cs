@@ -91,6 +91,16 @@ public class Board : MonoBehaviour
         tiles.Add(t);
     }
 
+    public EffectorCube GetCube(Vector3 pos)
+    {
+        for (int i = 0; i < cubes.Count; i++)
+        {
+            if (cubes[i].GetPosition() == pos)
+                return cubes[i].GetCube();
+        }
+        return null;
+    }
+
     public Tile GetTile(Vector3 pos)
     {
         for(int i = 0; i < tiles.Count; i++)

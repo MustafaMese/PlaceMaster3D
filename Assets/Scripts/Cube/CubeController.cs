@@ -32,31 +32,44 @@ public class CubeController : MonoBehaviour
             transform.DOMove(target, fallTime).SetEase(fallEase).OnComplete(() => FallToVoid());
     }
 
-    private void Move(Vector3 target)
+    public void Move(Vector3 target)
     {
         SetTile(target);
         if (tile != null)
         {
+            EffectorCube cube = board.GetCube(target);
+            if(cube != null)
+            {
+                cube.Effect(this);
+                return;
+            }
+
             bool transparency = tile.IsTransparent();
             if (!transparency)
-            {
-                // Diğer pozisyona ilerle.
-                Vector3 nextPosition = GetNextPosition(direction);
-                transform.DOJump(target, jumpPower, 1, moveTime).OnComplete(() => Move(nextPosition));
-            }
+                MoveToNextPosition(target);
             else
-            {
-                // Boşluğa yerleş.
-                Vector3 tilePos = new Vector3(target.x, 0f, target.z);
-                transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FillSpace());
-                // Yerleştin.
-            }
+                MoveToFillSpace(target);
         }
         else
-        {
-            Vector3 tilePos = new Vector3(target.x, 0f, target.z);
-            transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FallToVoid());
-        }
+            MoveToFallVoid(target);
+    }
+
+    private void MoveToFallVoid(Vector3 target)
+    {
+        Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+        transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FallToVoid());
+    }
+
+    private void MoveToNextPosition(Vector3 target)
+    {
+        Vector3 nextPosition = GetNextPosition(direction);
+        transform.DOJump(target, jumpPower, 1, moveTime).OnComplete(() => Move(nextPosition));
+    }
+
+    private void MoveToFillSpace(Vector3 target)
+    {
+        Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+        transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FillSpace());
     }
 
     private void FallToVoid()
@@ -80,7 +93,7 @@ public class CubeController : MonoBehaviour
         tile = board.GetTile(tilePos);
     }
 
-    private Vector3 GetNextPosition(Direction d)
+    public Vector3 GetNextPosition(Direction d)
     {
         Vector3 currentPosition = tile.transform.position;
         Vector3 nextPosition = Vector3.zero;
@@ -103,5 +116,10 @@ public class CubeController : MonoBehaviour
         }
 
         return nextPosition;
+    }
+
+    public void SetDirection(Direction d)
+    {
+        direction = d;
     }
 }

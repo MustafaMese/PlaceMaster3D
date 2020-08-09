@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2673301328937330326}
   - component: {fileID: 2673301328937330327}
   - component: {fileID: 2673301328937330324}
-  - component: {fileID: 6120982399194162078}
+  - component: {fileID: 2268635781516036253}
   m_Layer: 0
   m_Name: EffectorCube
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &6120982399194162078
+--- !u!114 &2268635781516036253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,6 +89,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2673301328937330330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bbcb0ae30527f8469f6c123280270be, type: 3}
+  m_Script: {fileID: 11500000, guid: efc928ed91bf0b849b75106130338460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
