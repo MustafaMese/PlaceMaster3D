@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class CubeController : MonoBehaviour
+public class BouncerCube : MonoBehaviour
 {
-    [SerializeField] float fallTime = 0f;
-    [SerializeField] Ease fallEase;
+    [SerializeField] float fallTime = 2f;
+    [SerializeField] Ease fallEase = Ease.OutBounce;
 
     [SerializeField] private float jumpPower = 1f;
     [SerializeField] private float moveTime = 1f;
     
     private Board board;
     private Direction direction;
+
     private Tile tile;
+    public Material ownMaterial;
 
     void Start()
     {
         DOTween.Init();
+        if(ownMaterial != null)
+            ownMaterial = GetComponent<MeshRenderer>().material;
     }
 
     public void Fall(Vector3 target)
@@ -35,6 +39,7 @@ public class CubeController : MonoBehaviour
     public void Move(Vector3 target)
     {
         SetTile(target);
+
         if (tile != null)
         {
             EffectorCube cube = board.GetCube(target);
@@ -74,12 +79,15 @@ public class CubeController : MonoBehaviour
 
     private void FallToVoid()
     {
-        print("Boşluğa Düştün");
+        Tile t = gameObject.AddComponent<Tile>();
+        board.AddToTiles(t);
     }
     
     private void FillSpace()
     {
-        print("Boşluğa yerleştin");
+        tile.SetTransparent(false);
+        tile.GetComponent<MeshRenderer>().material = GetComponent<MeshRenderer>().material;
+        this.gameObject.SetActive(false);
     }
     
     public void SetBoard(Board board)
@@ -87,7 +95,7 @@ public class CubeController : MonoBehaviour
         this.board = board;
     }
 
-    private void SetTile(Vector3 target)
+    public void SetTile(Vector3 target)
     {
         Vector3 tilePos = new Vector3(target.x, 0f, target.z);
         tile = board.GetTile(tilePos);
@@ -118,8 +126,48 @@ public class CubeController : MonoBehaviour
         return nextPosition;
     }
 
+    public Vector3 GetOldPosition(Direction d)
+    {
+        Vector3 currentPosition = tile.transform.position;
+        Vector3 nextPosition = Vector3.zero;
+        switch (d)
+        {
+            case Direction.NONE:
+                break;
+            case Direction.FORWARD:
+                nextPosition = new Vector3(currentPosition.x, 1f, currentPosition.z - 1f);
+                break;
+            case Direction.BACKWARD:
+                nextPosition = new Vector3(currentPosition.x, 1f, currentPosition.z + 1f);
+                break;
+            case Direction.RIGHT:
+                nextPosition = new Vector3(currentPosition.x - 1f, 1f, currentPosition.z);
+                break;
+            case Direction.LEFT:
+                nextPosition = new Vector3(currentPosition.x + 1f, 1f, currentPosition.z);
+                break;
+        }
+
+        return nextPosition;
+    }
+
     public void SetDirection(Direction d)
     {
         direction = d;
+    }
+
+    public Direction GetDirection()
+    {
+        return direction;
+    }
+
+    public Tile GetTile()
+    {
+        return tile;
+    }
+
+    public Board GetBoard()
+    {
+        return board;
     }
 }

@@ -9,7 +9,10 @@ public class TileOnEditor : MonoBehaviour
 
     void Update()
     {
-        tile.SetGlow();
-        tile.SetTransparent();
+        if (!Application.isPlaying)
+        {
+            print("ozman");
+            tile.SetMaterial();
+        }
     }
 }

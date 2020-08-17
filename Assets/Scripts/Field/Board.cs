@@ -5,8 +5,8 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     public static Board Instance = null;
-    [SerializeField] CubeController cubeControllerPrefab;
-    private CubeController cubeController;
+    [SerializeField] BouncerCube bouncerCubePrefab;
+    private BouncerCube cubeController;
     public List<TileTable> tiles = new List<TileTable>();
     public List<CubeTable> cubes = new List<CubeTable>();
     public bool isTouched = false;
@@ -51,11 +51,11 @@ public class Board : MonoBehaviour
         cubeController.Fall(cubeEndPoint);
     }
 
-    private CubeController InitializePlayerCube(Vector3 tilePosition)
+    private BouncerCube InitializePlayerCube(Vector3 tilePosition)
     {
-        CubeController controller;
+        BouncerCube controller;
         Vector3 cubeStartPoint = new Vector3(tilePosition.x, tilePosition.y + 5f, tilePosition.z);
-        controller = Instantiate(cubeControllerPrefab, cubeStartPoint, Quaternion.identity);
+        controller = Instantiate(bouncerCubePrefab, cubeStartPoint, Quaternion.identity);
         controller.SetBoard(this);
         return controller;
     }
@@ -87,6 +87,11 @@ public class Board : MonoBehaviour
     public void CreateTile(Vector3 currentPos, Tile tilePrefab)
     {
         Tile tile = Instantiate(tilePrefab, currentPos, Quaternion.identity, transform);
+        AddToTiles(tile);
+    }
+
+    public void AddToTiles(Tile tile)
+    {
         TileTable t = new TileTable(tile, tile.transform.position);
         tiles.Add(t);
     }

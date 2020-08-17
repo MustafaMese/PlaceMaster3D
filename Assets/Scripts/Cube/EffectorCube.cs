@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class EffectorCube : MonoBehaviour
 {
-    public abstract void Effect(CubeController cubeController);
+    public abstract void Effect(BouncerCube cubeController);
 }

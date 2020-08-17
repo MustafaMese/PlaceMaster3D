@@ -18,15 +18,12 @@ public class Tile : MonoBehaviour
     private void Start() 
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        SetGlow();
-        SetTransparent();
+        //SetMaterial();
     }
     public void SetGlow()
     {
         if(isAvaibleToPut)
             meshRenderer.material = glowMaterial;
-        else
-            meshRenderer.material = normalMaterial;
     }
 
     public bool IsTransparent()
@@ -34,10 +31,25 @@ public class Tile : MonoBehaviour
         return isTransparent;
     }
     
+    public void SetMaterial()
+    {
+        if (isAvaibleToPut)
+            SetGlow();
+        else if (isTransparent)
+            SetTransparent();
+        else
+            meshRenderer.material = normalMaterial;
+    }
+
     public void SetTransparent()
     {
         if (isTransparent)
             meshRenderer.material = transparentMaterial;
+    }
+
+    public void SetTransparent(bool b)
+    {
+        isTransparent = b;
     }
 
     public bool IsAvaibleToPut()
@@ -48,6 +60,11 @@ public class Tile : MonoBehaviour
     public Direction GetDirection()
     {
         return direction;
+    }
+
+    public void SetDirection(Direction d)
+    {
+        direction = d;
     }
 }
 

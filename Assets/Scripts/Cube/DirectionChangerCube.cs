@@ -6,9 +6,10 @@ public class DirectionChangerCube : EffectorCube
 {
     [SerializeField] Direction direction;
 
-    public override void Effect(CubeController cubeController)
+    public override void Effect(BouncerCube cubeController)
     {
-        // Bir adım ileri gidiyo bunu düzelt.
+        Vector3 oldPosition = cubeController.GetOldPosition(cubeController.GetDirection());
+        cubeController.SetTile(oldPosition);
         cubeController.SetDirection(direction);
         Vector3 nextPosition = cubeController.GetNextPosition(direction);
         cubeController.Move(nextPosition);
