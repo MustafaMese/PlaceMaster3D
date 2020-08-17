@@ -8,7 +8,8 @@ public class Board : MonoBehaviour
     [SerializeField] BouncerCube bouncerCubePrefab;
     private BouncerCube cubeController;
     public List<TileTable> tiles = new List<TileTable>();
-    public List<CubeTable> cubes = new List<CubeTable>();
+    public List<EffectorCubeTable> effectorCubes = new List<EffectorCubeTable>();
+    public List<BouncerCubeTable> bouncerCubes = new List<BouncerCubeTable>();
     public bool isTouched = false;
     
     private void Awake()
@@ -36,7 +37,7 @@ public class Board : MonoBehaviour
                     if(tile.IsAvaibleToPut())
                     {
                         isTouched = true;
-                        cubeController = InitializePlayerCube(tile.transform.position);
+                        cubeController = InitializeBouncerCube(tile.transform.position);
                         StartMove();
                     }
                 }
@@ -51,12 +52,13 @@ public class Board : MonoBehaviour
         cubeController.Fall(cubeEndPoint);
     }
 
-    private BouncerCube InitializePlayerCube(Vector3 tilePosition)
+    private BouncerCube InitializeBouncerCube(Vector3 tilePosition)
     {
         BouncerCube controller;
         Vector3 cubeStartPoint = new Vector3(tilePosition.x, tilePosition.y + 5f, tilePosition.z);
         controller = Instantiate(bouncerCubePrefab, cubeStartPoint, Quaternion.identity);
         controller.SetBoard(this);
+        AddToBouncerCubes(controller, controller.transform.position);
         return controller;
     }
 
@@ -68,11 +70,36 @@ public class Board : MonoBehaviour
             EffectorCube cube = c[i];
             Transform cubeT = cube.transform;
             cubeT.SetParent(this.transform);
-            CubeTable ct = new CubeTable(cube, cubeT.position);
-            cubes.Add(ct);
+            AddToEffectorCubes(cube, cubeT.position);
         }
     }
-    
+
+    public void UpdateBouncerCubes(BouncerCube cube, Vector3 cubePos)
+    {
+        for (int i = 0; i < bouncerCubes.Count; i++)
+        {
+            print("buradayım");
+            if (bouncerCubes[i].GetCube() == cube)
+            {
+                print("Hobb");
+                bouncerCubes[i].SetPosition(cubePos);
+                print(bouncerCubes[i].GetPosition());
+            }
+        }
+    }
+
+    public void AddToBouncerCubes(BouncerCube cube, Vector3 cubePos)
+    {
+        BouncerCubeTable ct = new BouncerCubeTable(cube, cubePos);
+        bouncerCubes.Add(ct);
+    }
+
+    public void AddToEffectorCubes(EffectorCube cube, Vector3 cubePos)
+    {
+        EffectorCubeTable ct = new EffectorCubeTable(cube, cubePos);
+        effectorCubes.Add(ct);
+    }
+
     private void InitializeTiles()
     {
         var count = transform.childCount;
@@ -96,12 +123,22 @@ public class Board : MonoBehaviour
         tiles.Add(t);
     }
 
-    public EffectorCube GetCube(Vector3 pos)
+    public BouncerCube GetBouncerCube(Vector3 pos)
     {
-        for (int i = 0; i < cubes.Count; i++)
+        for (int i = 0; i < bouncerCubes.Count; i++)
         {
-            if (cubes[i].GetPosition() == pos)
-                return cubes[i].GetCube();
+            if (bouncerCubes[i].GetPosition() == pos)
+                return bouncerCubes[i].GetCube();
+        }
+        return null;
+    }
+
+    public EffectorCube GetEffectorCube(Vector3 pos)
+    {
+        for (int i = 0; i < effectorCubes.Count; i++)
+        {
+            if (effectorCubes[i].GetPosition() == pos)
+                return effectorCubes[i].GetCube();
         }
         return null;
     }

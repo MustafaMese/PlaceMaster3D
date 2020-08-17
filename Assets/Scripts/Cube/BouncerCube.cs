@@ -14,7 +14,7 @@ public class BouncerCube : MonoBehaviour
     private Board board;
     private Direction direction;
 
-    private Tile tile;
+    public Tile tile;
     public Material ownMaterial;
 
     void Start()
@@ -42,7 +42,7 @@ public class BouncerCube : MonoBehaviour
 
         if (tile != null)
         {
-            EffectorCube cube = board.GetCube(target);
+            EffectorCube cube = board.GetEffectorCube(target);
             if(cube != null)
             {
                 cube.Effect(this);
@@ -80,6 +80,7 @@ public class BouncerCube : MonoBehaviour
     private void FallToVoid()
     {
         Tile t = gameObject.AddComponent<Tile>();
+        this.enabled = false;
         board.AddToTiles(t);
     }
     
@@ -98,7 +99,9 @@ public class BouncerCube : MonoBehaviour
     public void SetTile(Vector3 target)
     {
         Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+        Vector3 cubePos = new Vector3(target.x, 1f, target.z);
         tile = board.GetTile(tilePos);
+        board.UpdateBouncerCubes(this, cubePos);
     }
 
     public Vector3 GetNextPosition(Direction d)
