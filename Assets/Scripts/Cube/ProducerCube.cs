@@ -27,7 +27,6 @@ public class ProducerCube : EffectorCube
         while (true)
         {
             Vector3 pos = GetNextPosition();
-            print("pos:" + pos);
 
             EffectorCube ec = board.GetEffectorCube(pos);
             BouncerCube bc = board.GetBouncerCube(pos);
@@ -69,13 +68,13 @@ public class ProducerCube : EffectorCube
         Vector3 v = new Vector3(10, 10, 10);
         while (cube.transform.localScale.x < 10)
         {
-            cube.transform.localScale += new Vector3(1, 1, 1) * (Time.deltaTime / 0.5f);
+            cube.transform.localScale += new Vector3(1, 1, 1) * (Time.deltaTime / 0.2f);
             yield return null;
         }
         cube.transform.localScale = v;
     }
 
-    public Vector3 GetNextPosition()
+    private Vector3 GetNextPosition()
     {
         Vector3 currentPosition = transform.position;
         Vector3 nextPosition = Vector3.zero;

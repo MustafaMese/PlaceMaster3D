@@ -8,10 +8,15 @@ public class DirectionChangerCube : EffectorCube
 
     public override void Effect(BouncerCube cubeController)
     {
+        SetOldPosition(cubeController);
+        Vector3 nextPosition = cubeController.GetNextPosition(direction);
+        cubeController.Move(nextPosition);
+    }
+
+    private void SetOldPosition(BouncerCube cubeController)
+    {
         Vector3 oldPosition = cubeController.GetOldPosition(cubeController.GetDirection());
         cubeController.SetTile(oldPosition);
         cubeController.SetDirection(direction);
-        Vector3 nextPosition = cubeController.GetNextPosition(direction);
-        cubeController.Move(nextPosition);
     }
 }

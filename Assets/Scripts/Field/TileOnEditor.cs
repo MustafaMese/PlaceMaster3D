@@ -10,9 +10,6 @@ public class TileOnEditor : MonoBehaviour
     void Update()
     {
         if (!Application.isPlaying)
-        {
-            print("ozman");
             tile.SetMaterial();
-        }
     }
 }

@@ -39,13 +39,18 @@ public class BouncerCube : MonoBehaviour
     public void Move(Vector3 target)
     {
         SetTile(target);
+        BouncerCube bc = board.GetBouncerCube(target);
+
+        if (bc != null) return;
 
         if (tile != null)
         {
-            EffectorCube cube = board.GetEffectorCube(target);
-            if(cube != null)
+            EffectorCube ec = board.GetEffectorCube(target);
+            
+
+            if(ec != null)
             {
-                cube.Effect(this);
+                ec.Effect(this);
                 return;
             }
 
@@ -62,19 +67,36 @@ public class BouncerCube : MonoBehaviour
     private void MoveToFallVoid(Vector3 target)
     {
         Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+        UpdateCubeTable(target, true);
         transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FallToVoid());
     }
 
     private void MoveToNextPosition(Vector3 target)
     {
         Vector3 nextPosition = GetNextPosition(direction);
+        UpdateCubeTable(target, false);
         transform.DOJump(target, jumpPower, 1, moveTime).OnComplete(() => Move(nextPosition));
     }
 
     private void MoveToFillSpace(Vector3 target)
     {
         Vector3 tilePos = new Vector3(target.x, 0f, target.z);
+        UpdateCubeTable(target, true);
         transform.DOJump(tilePos, jumpPower, 1, moveTime).OnComplete(() => FillSpace());
+    }
+
+    private void UpdateCubeTable(Vector3 target, bool placeToTile)
+    {
+        if (placeToTile) 
+        {
+            Vector3 pos = new Vector3(target.x, 0f, target.z);
+            board.UpdateBouncerCubes(this, pos);
+        }
+        else
+        {
+            Vector3 pos = new Vector3(target.x, 1f, target.z);
+            board.UpdateBouncerCubes(this, pos);
+        }
     }
 
     private void FallToVoid()
@@ -88,7 +110,7 @@ public class BouncerCube : MonoBehaviour
     {
         tile.SetTransparent(false);
         tile.GetComponent<MeshRenderer>().material = GetComponent<MeshRenderer>().material;
-        this.gameObject.SetActive(false);
+        this.enabled = false;
     }
     
     public void SetBoard(Board board)
@@ -99,9 +121,7 @@ public class BouncerCube : MonoBehaviour
     public void SetTile(Vector3 target)
     {
         Vector3 tilePos = new Vector3(target.x, 0f, target.z);
-        Vector3 cubePos = new Vector3(target.x, 1f, target.z);
         tile = board.GetTile(tilePos);
-        board.UpdateBouncerCubes(this, cubePos);
     }
 
     public Vector3 GetNextPosition(Direction d)

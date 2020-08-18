@@ -78,12 +78,9 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < bouncerCubes.Count; i++)
         {
-            print("buradayım");
             if (bouncerCubes[i].GetCube() == cube)
             {
-                print("Hobb");
                 bouncerCubes[i].SetPosition(cubePos);
-                print(bouncerCubes[i].GetPosition());
             }
         }
     }

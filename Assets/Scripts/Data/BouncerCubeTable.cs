@@ -17,7 +17,6 @@ public class BouncerCubeTable
     public void SetPosition(Vector3 pos)
     {
         position = pos;
-        Debug.Log(position);
     }
 
     public void SetCube(BouncerCube cube)
