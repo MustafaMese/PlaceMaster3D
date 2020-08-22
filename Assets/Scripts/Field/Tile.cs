@@ -18,12 +18,16 @@ public class Tile : MonoBehaviour
     private void Start() 
     {
         meshRenderer = GetComponent<MeshRenderer>();
-        //SetMaterial();
     }
     public void SetGlow()
     {
         if(isAvaibleToPut)
             meshRenderer.material = glowMaterial;
+    }
+
+    public void SetIsAvaibleToPut(bool a)
+    {
+        isAvaibleToPut = a;
     }
 
     public bool IsTransparent()

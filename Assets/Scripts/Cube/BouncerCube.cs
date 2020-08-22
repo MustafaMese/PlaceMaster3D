@@ -10,8 +10,10 @@ public class BouncerCube : MonoBehaviour
 
     [SerializeField] private float jumpPower = 1f;
     [SerializeField] private float moveTime = 1f;
-    
+
+    private TileManager tileManager;
     private Board board;
+    private CoinsManager coinsManager;
     private Direction direction;
 
     public Tile tile;
@@ -20,6 +22,8 @@ public class BouncerCube : MonoBehaviour
     void Start()
     {
         DOTween.Init();
+        tileManager = FindObjectOfType<TileManager>();
+        coinsManager = FindObjectOfType<CoinsManager>();
         if(ownMaterial != null)
             ownMaterial = GetComponent<MeshRenderer>().material;
     }
@@ -108,8 +112,10 @@ public class BouncerCube : MonoBehaviour
     
     private void FillSpace()
     {
+        coinsManager.AddCoins(transform.position, 7);
         tile.SetTransparent(false);
         tile.GetComponent<MeshRenderer>().material = GetComponent<MeshRenderer>().material;
+        tileManager.TileControl();
         this.enabled = false;
     }
     

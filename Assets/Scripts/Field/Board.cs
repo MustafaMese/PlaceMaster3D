@@ -1,17 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Board : MonoBehaviour
 {
     public static Board Instance = null;
-    [SerializeField] BouncerCube bouncerCubePrefab;
-    private BouncerCube cubeController;
+    
     public List<TileTable> tiles = new List<TileTable>();
     public List<EffectorCubeTable> effectorCubes = new List<EffectorCubeTable>();
     public List<BouncerCubeTable> bouncerCubes = new List<BouncerCubeTable>();
-    public bool isTouched = false;
+
+    [Header("Board Variables")]
+    private bool isTouched = false;
+    private BouncerCube cubeController;
+    [SerializeField] BouncerCube bouncerCubePrefab;
+    [SerializeField] int moveCount = 0;
+    [SerializeField] TextMeshProUGUI moveCountText = null;
     
+
     private void Awake()
     {
         Instance = this;
@@ -21,10 +28,15 @@ public class Board : MonoBehaviour
     {
         InitializeTiles();
         InitializeCubes();
+        UpdateMoveCount(false);
     }
 
     private void Update() 
     {
+        if (GameManager.Instance.gameState != GameState.PLAY) return;
+
+        if (moveCount <= 0) return;
+
         if (Input.GetMouseButtonDown(0) && !isTouched)
         {
             RaycastHit hit;
@@ -37,12 +49,31 @@ public class Board : MonoBehaviour
                     if(tile.IsAvaibleToPut())
                     {
                         isTouched = true;
+                        tile.SetIsAvaibleToPut(false);
+                        tile.SetMaterial();
+
                         cubeController = InitializeBouncerCube(tile.transform.position);
                         StartMove();
+                        StartCoroutine(MakeTouchedFalse());
+
+                        UpdateMoveCount(true);
                     }
                 }
             }
         }
+    }
+
+    private void UpdateMoveCount(bool decreaseCount)
+    {
+        if(decreaseCount)
+            moveCount--;
+        moveCountText.text = moveCount.ToString();
+    }
+
+    private IEnumerator MakeTouchedFalse()
+    {
+        yield return new WaitForSeconds(1.5f);
+        isTouched = false;
     }
 
     private void StartMove()
