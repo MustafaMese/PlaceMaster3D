@@ -28,4 +28,5 @@ public class StartCanvas : MonoBehaviour
     {
         StartGame();
     }
+
 }

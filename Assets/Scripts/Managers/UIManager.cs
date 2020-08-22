@@ -22,16 +22,7 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        // if the singleton hasn't been initialized yet
-        if (_instance != null && _instance != this) 
-        {
-            Destroy(this.gameObject);
-        }
- 
         _instance = this;
-        
-        DontDestroyOnLoad( this.gameObject );
-        
     }
 
     private void Start()

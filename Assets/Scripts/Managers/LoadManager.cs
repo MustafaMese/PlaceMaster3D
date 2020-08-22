@@ -34,6 +34,7 @@ public class LoadManager : MonoBehaviour
 
     public void RestartLevel()
     {
+        StopAllCoroutines();
         GameManager.Instance.SetGameState(GameState.START_MENU);
         DOTween.Clear();
         var scene = SceneManager.GetActiveScene();
