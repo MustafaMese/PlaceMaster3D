@@ -13,24 +13,28 @@ public class LoadManager : MonoBehaviour
     {
         get
         {
-            if(_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<LoadManager>();
-            }
-
             return _instance;
         }
     }
 
+    
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        // if the singleton hasn't been initialized yet
+        if (_instance != null && _instance != this) 
+        {
+            Destroy(this.gameObject);
+        }
+ 
+        _instance = this;
+        DontDestroyOnLoad( this.gameObject );
+        
         DOTween.Init();
     }
 
     public void RestartLevel()
     {
-        GameManager.Instance.SetGameState(GameState.MAIN_MENU);
+        GameManager.Instance.SetGameState(GameState.START_MENU);
         DOTween.Clear();
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex);
@@ -38,9 +42,14 @@ public class LoadManager : MonoBehaviour
 
     public void NextLevel()
     {
-        GameManager.Instance.SetGameState(GameState.MAIN_MENU);
+        GameManager.Instance.SetGameState(GameState.START_MENU);
         DOTween.Clear();
         var scene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(scene.buildIndex + 1);
+    }
+    
+    public void OnApplicationQuit()
+    {
+        LoadManager._instance = null;
     }
 }

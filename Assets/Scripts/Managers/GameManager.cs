@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState { PLAY, MAIN_MENU, END}
+public enum GameState { PLAY, START_MENU, END, FAIL, REWARD_MENU, NONE}
 public class GameManager : MonoBehaviour
 {
     protected GameManager() { }
@@ -12,26 +12,31 @@ public class GameManager : MonoBehaviour
     { 
         get 
         {
-            if (_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<GameManager>();
-            }
-
             return _instance;
         }
     }
 
     public GameState gameState { get; private set; }
-
+    private UIManager uiManager;
+    
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        gameState = GameState.MAIN_MENU;
+        // if the singleton hasn't been initialized yet
+        if (_instance != null && _instance != this) 
+        {
+            Destroy(this.gameObject);
+        }
+ 
+        _instance = this;
+        DontDestroyOnLoad( this.gameObject );
+        gameState = GameState.START_MENU;
+        uiManager = FindObjectOfType <UIManager>();
     }
 
     public void SetGameState(GameState state)
     {
-        this.gameState = state;
+        gameState = state;
+        uiManager.UpdateCanvasState(gameState);
     }
 
     public void OnApplicationQuit()
