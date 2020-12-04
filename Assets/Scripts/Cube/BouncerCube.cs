@@ -11,7 +11,6 @@ public class BouncerCube : MonoBehaviour
     [SerializeField] private float jumpPower = 1f;
     [SerializeField] private float moveTime = 1f;
 
-    private TileManager tileManager;
     private Board board;
     private CoinsManager coinsManager;
     private Direction direction;
@@ -22,7 +21,6 @@ public class BouncerCube : MonoBehaviour
     void Start()
     {
         DOTween.Init();
-        tileManager = FindObjectOfType<TileManager>();
         coinsManager = FindObjectOfType<CoinsManager>();
         if(ownMaterial != null)
             ownMaterial = GetComponent<MeshRenderer>().material;
@@ -30,12 +28,15 @@ public class BouncerCube : MonoBehaviour
 
     public void Fall(Vector3 target)
     {
+        TileManager.Instance.PushCube(this);
         SetTile(target);
         direction = tile.GetDirection();
         Vector3 nextPosition = GetNextPosition(direction);
 
-        if(nextPosition != Vector3.zero)
+        if (nextPosition != Vector3.zero)
+        {
             transform.DOMove(target, fallTime).SetEase(fallEase).OnComplete(() => Move(nextPosition));
+        }
         else
             transform.DOMove(target, fallTime).SetEase(fallEase).OnComplete(() => FallToVoid());
     }
@@ -50,19 +51,17 @@ public class BouncerCube : MonoBehaviour
         if (tile != null)
         {
             EffectorCube ec = board.GetEffectorCube(target);
-            
 
-            if(ec != null)
-            {
+            if (ec != null)
                 ec.Effect(this);
-                return;
-            }
-
-            bool transparency = tile.IsTransparent();
-            if (!transparency)
-                MoveToNextPosition(target);
             else
-                MoveToFillSpace(target);
+            {
+                bool transparency = tile.IsTransparent();
+                if (!transparency)
+                    MoveToNextPosition(target);
+                else
+                    MoveToFillSpace(target);
+            }
         }
         else
             MoveToFallVoid(target);
@@ -108,17 +107,23 @@ public class BouncerCube : MonoBehaviour
         Tile t = gameObject.AddComponent<Tile>();
         this.enabled = false;
         board.AddToTiles(t);
+
+        TileManager.Instance.PopCube();
+        TileManager.Instance.TileControl();
     }
     
     private void FillSpace()
     {
-        coinsManager.AddCoins(transform.position, 7);
+        //coinsManager.AddCoins(transform.position, 7);
+
         tile.SetTransparent(false);
         tile.GetComponent<MeshRenderer>().material = GetComponent<MeshRenderer>().material;
-        tileManager.TileControl();
         this.enabled = false;
+
+        TileManager.Instance.PopCube();
+        TileManager.Instance.TileControl();
     }
-    
+
     public void SetBoard(Board board)
     {
         this.board = board;

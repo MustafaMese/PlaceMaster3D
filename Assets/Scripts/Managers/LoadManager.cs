@@ -6,29 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class LoadManager : MonoBehaviour
 {
-    protected LoadManager() { }
-
     private static LoadManager _instance = null;
     public static LoadManager Instance
     {
-        get
-        {
-            return _instance;
-        }
+        get { return _instance; }
+        set { _instance = value; }
     }
 
-    
     private void Awake()
     {
-        // if the singleton hasn't been initialized yet
-        if (_instance != null && _instance != this) 
-        {
-            Destroy(this.gameObject);
-        }
- 
-        _instance = this;
-        DontDestroyOnLoad( this.gameObject );
-        
+        if (Instance != null)
+            Destroy(Instance);
+        else
+            Instance = this;
+
         DOTween.Init();
     }
 

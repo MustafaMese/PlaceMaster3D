@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -15,9 +16,8 @@ public class Board : MonoBehaviour
     private bool isTouched = false;
     private BouncerCube cubeController;
     [SerializeField] BouncerCube bouncerCubePrefab;
-    [SerializeField] int moveCount = 0;
-    [SerializeField] TextMeshProUGUI moveCountText = null;
-    
+
+    public int moveCount = 0;
 
     private void Awake()
     {
@@ -67,7 +67,7 @@ public class Board : MonoBehaviour
     {
         if(decreaseCount)
             moveCount--;
-        moveCountText.text = moveCount.ToString();
+        UIManager.Instance.UpdateMoveCountText(moveCount);
     }
 
     private IEnumerator MakeTouchedFalse()
@@ -141,7 +141,9 @@ public class Board : MonoBehaviour
 
     public void CreateTile(Vector3 currentPos, Tile tilePrefab)
     {
-        Tile tile = Instantiate(tilePrefab, currentPos, Quaternion.identity, transform);
+        var tile = PrefabUtility.InstantiatePrefab(tilePrefab as Tile) as Tile;
+        tile.transform.position = currentPos;
+        tile.transform.SetParent(transform);
         AddToTiles(tile);
     }
 

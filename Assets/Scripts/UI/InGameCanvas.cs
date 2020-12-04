@@ -10,12 +10,8 @@ public class InGameCanvas : MonoBehaviour
 {
     [SerializeField] GameObject panel;
     [SerializeField] Slider levelProgressSlider;
-    [SerializeField] private TextMeshProUGUI levelCountText;
-
-    private void OnEnable()
-    {
-        UIManager.Instance.inGameCanvas = this;
-    }
+    [SerializeField] TextMeshProUGUI levelCountText;
+    [SerializeField] TextMeshProUGUI moveCountText;
 
     private void SetSliderProgress()
     {
@@ -51,8 +47,12 @@ public class InGameCanvas : MonoBehaviour
 
     public void RestartButton()
     {
-        LoadManager.Instance.RestartLevel();
+        GameManager.Instance.SetGameState(GameState.RESTART_LEVEL);
     }
     
+    public void UpdateMoveCountText(int number)
+    {
+        moveCountText.text = number.ToString();
+    }
     
 }

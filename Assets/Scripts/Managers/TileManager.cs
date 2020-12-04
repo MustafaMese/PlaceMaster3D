@@ -1,18 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    private Board board;
+    public static TileManager Instance = null;
+
+    [SerializeField] Board board;
     private List<TileTable> tiles = new List<TileTable>();
+
+    public Stack<BouncerCube> cubes = new Stack<BouncerCube>();
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Start()
     {
-        board = FindObjectOfType<Board>();
         tiles = board.tiles;
     }
-
+    
     public void TileControl()
     {
         int count = 0;
@@ -23,16 +32,37 @@ public class TileManager : MonoBehaviour
         }
 
         if (count <= 0)
-            StartCoroutine(EndLevel());
+        {
+            EndLevel();
+            return;
+        }
+
+        if (board.moveCount <= 0 && GetCubeCount() <= 0)
+            Fail();
     }
 
-    private IEnumerator EndLevel()
+    public int GetCubeCount()
+    {
+        return cubes.Count;
+    }
+
+    public void PushCube(BouncerCube gameObject)
+    {
+        cubes.Push(gameObject);
+    }
+
+    public void PopCube()
+    {
+        cubes.Pop();
+    }
+
+    private void Fail()
+    {
+        GameManager.Instance.SetGameState(GameState.FAIL);
+    }
+
+    private void EndLevel()
     {
         GameManager.Instance.SetGameState(GameState.END);
-        print("End level panel shows up!!");
-        yield return new WaitForSeconds(1f);
-        print("To the next Level!");
-        LoadManager.Instance.NextLevel();
-
     }
 }

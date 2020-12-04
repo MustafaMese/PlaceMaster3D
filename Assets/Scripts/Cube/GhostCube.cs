@@ -18,6 +18,11 @@ public class GhostCube : EffectorCube
             cubeController.Move(nextPos);
         }
         else
+        {
             cubeController.SetTile(cubeController.transform.position);
+
+            TileManager.Instance.PopCube();
+            TileManager.Instance.TileControl();
+        }
     }
 }

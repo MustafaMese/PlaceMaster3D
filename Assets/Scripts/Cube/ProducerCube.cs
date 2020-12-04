@@ -6,9 +6,16 @@ public class ProducerCube : EffectorCube
 {
     [SerializeField] Direction direction;
     [SerializeField] BouncerCube bouncerCubePrefab;
+    [SerializeField] int maxProduceCount;
 
     private Board board;
 
+    private int tempProduceCount;
+
+    private void Start()
+    {
+        tempProduceCount = maxProduceCount;
+    }
 
     public override void Effect(BouncerCube cubeController)
     {
@@ -24,7 +31,7 @@ public class ProducerCube : EffectorCube
 
     private IEnumerator ProduceCube(BouncerCube cubeController)
     {
-        while (true)
+        while (tempProduceCount > 0)
         {
             Vector3 pos = GetNextPosition();
 
@@ -33,8 +40,12 @@ public class ProducerCube : EffectorCube
 
             if (ec == null && bc == null)
             {
+                tempProduceCount--;
+
                 BouncerCube cube = InitializeBouncerCube(cubeController);
                 SetVariblesOfBouncerCube(cube);
+                TileManager.Instance.PushCube(cube);
+
                 yield return new WaitForSeconds(1.2f);
             }
             else

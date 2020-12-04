@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5104063793135219142}
   - component: {fileID: 5104063793135219143}
   m_Layer: 0
-  m_Name: Player Cube
+  m_Name: Bouncer Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,3 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallTime: 2
   fallEase: 30
+  jumpPower: 1
+  moveTime: 0.7
+  tile: {fileID: 0}
+  ownMaterial: {fileID: 0}

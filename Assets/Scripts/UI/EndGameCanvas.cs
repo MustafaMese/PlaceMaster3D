@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using DG.Tweening;
 using UnityEngine;
 
 public class EndGameCanvas : MonoBehaviour
@@ -14,17 +15,14 @@ public class EndGameCanvas : MonoBehaviour
 
     [SerializeField] float loseButtonTime;
 
-    private void OnEnable()
-    {
-        UIManager.Instance.endGameCanvas = this;
-    }
-
     public void SetPanelActive(bool b)
     {
-        print("hob");
         panel.SetActive(b);
-        if(b)
+        if (b)
+        {
+            DOTween.KillAll();
             StartCoroutine(ActiveLoseButton());
+        }
     }
 
     private IEnumerator ActiveLoseButton()
@@ -42,6 +40,6 @@ public class EndGameCanvas : MonoBehaviour
 
     public void NextLevel()
     {
-        LoadManager.Instance.NextLevel();
+        GameManager.Instance.SetGameState(GameState.LEVEL_TRANSITION);
     }
 }

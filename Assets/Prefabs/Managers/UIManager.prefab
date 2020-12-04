@@ -43,3 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21b006190d69dee4581787d4863326e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startCanvasPrefab: {fileID: 1127444679, guid: 6e6bf475366dc1a40a6f2da5c3501bed,
+    type: 3}
+  inGameCanvasPrefab: {fileID: 3009925149881513566, guid: 70c4346a56281754b8077e6ba42a936e,
+    type: 3}
+  endGameCanvasPrefab: {fileID: 676083380, guid: 6d1b9243466d1bf40b11ca7c59307aad,
+    type: 3}
+  failCanvasPrefab: {fileID: 6254293920298835819, guid: 8631ca98bbd699342933e4744ddd29fa,
+    type: 3}
+  rewardRoomCanvasPrefab: {fileID: 2389285222806806740, guid: 35d75038327f8a1489e5e05b31edbabc,
+    type: 3}

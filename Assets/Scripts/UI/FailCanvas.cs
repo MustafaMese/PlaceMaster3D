@@ -11,32 +11,20 @@ public class FailCanvas : MonoBehaviour
     [SerializeField] Button tryAgainButton;
 
     [SerializeField] float tryButtonTime = 1.5f;
-    public bool b;
-
-    private void OnEnable()
-    {
-        UIManager.Instance.failCanvas = this;
-        print("hob");
-    }
-
-    private void Update()
-    {
-        if (b)
-        {
-            b = false;
-            SetPanelActive(true);
-        }
-    }
 
     public void SetPanelActive(bool b)
     {
         panel.SetActive(b);
 
-        if (b)
-        {
-            StartCoroutine(ActiveTryAgainButton());
-            StartCoroutine(RestartLevelByTime());
-        }
+        if(b)
+            ChoicePanel();
+    }
+
+    //TODO Belki burda bölüm kayıtlanabailir ve benzeri bişi yapılabilir.
+    private void ChoicePanel()
+    {
+        StartCoroutine(ActiveTryAgainButton());
+        StartCoroutine(RestartLevelByTime());
     }
 
     private IEnumerator ActiveTryAgainButton()
@@ -45,10 +33,6 @@ public class FailCanvas : MonoBehaviour
         tryAgainButton.gameObject.SetActive(true);
     }
 
-    public void RestartLevel()
-    {
-        LoadManager.Instance.RestartLevel();
-    }
 
     public void WatchAd()
     {
@@ -58,6 +42,6 @@ public class FailCanvas : MonoBehaviour
     private IEnumerator RestartLevelByTime()
     {
         yield return new WaitForSeconds(tryButtonTime * 2f);
-        RestartLevel();
+        GameManager.Instance.SetGameState(GameState.RESTART_LEVEL);
     }
 }

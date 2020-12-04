@@ -492,7 +492,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1644,8 +1644,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: RestartLevel
+      - m_Target: {fileID: 3009925149881513566}
+        m_MethodName: RestartButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2148,7 +2148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6188586875050593369
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2249,6 +2249,7 @@ MonoBehaviour:
   panel: {fileID: 6188586875050593365}
   levelProgressSlider: {fileID: 829204651}
   levelCountText: {fileID: 5456809558509799978}
+  moveCountText: {fileID: 6188586875155118048}
 --- !u!1 &6188586875155118050
 GameObject:
   m_ObjectHideFlags: 0
@@ -2472,7 +2473,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 40be4a9dacaa52c4798515b59fb42910, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e38a14a672fe90047876fdfd958f8199, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

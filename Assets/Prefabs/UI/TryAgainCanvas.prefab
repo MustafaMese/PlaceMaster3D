@@ -66,8 +66,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 4b88e7a92aee17043a92681420727cba, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -293,7 +293,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5239216927928127273
 RectTransform:
   m_ObjectHideFlags: 0
@@ -341,8 +341,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 4b88e7a92aee17043a92681420727cba, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -406,13 +406,14 @@ GameObject:
   - component: {fileID: 5333205819247808132}
   - component: {fileID: 1064235711976013707}
   - component: {fileID: 4554096988819368284}
+  - component: {fileID: 6254293920298835819}
   m_Layer: 5
   m_Name: TryAgainCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8501944391960638830
 RectTransform:
   m_ObjectHideFlags: 0
@@ -493,6 +494,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6254293920298835819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4065425130203728022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4133e147c5388840af67908ca03ff65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 4065425130203728022}
+  tryAgainButton: {fileID: 2608065807705826483}
+  tryButtonTime: 1.5
 --- !u!1 &4442330697668225762
 GameObject:
   m_ObjectHideFlags: 0

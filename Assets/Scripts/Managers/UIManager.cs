@@ -5,101 +5,122 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    protected UIManager() { }
     private static UIManager _instance = null;
     public static UIManager Instance
     {
-        get
-        {
-            return _instance;
-        }
+        get { return _instance; }
+        set { _instance = value; }
     }
-    public StartCanvas startCanvas;
-    public InGameCanvas inGameCanvas;
-    public EndGameCanvas endGameCanvas;
-    public FailCanvas failCanvas;
-    public RewardRoomCanvas rewardRoomCanvas;
+
+    [SerializeField] StartCanvas startCanvasPrefab;
+    [SerializeField] InGameCanvas inGameCanvasPrefab;
+    [SerializeField] EndGameCanvas endGameCanvasPrefab;
+    [SerializeField] FailCanvas failCanvasPrefab;
+    [SerializeField] RewardRoomCanvas rewardRoomCanvasPrefab;
+
+    private StartCanvas _startCanvas;
+    private InGameCanvas _inGameCanvas;
+    private EndGameCanvas _endGameCanvas;
+    private FailCanvas _failCanvas;
+    private RewardRoomCanvas _rewardRoomCanvas;
+
+    private bool ended = false;
 
     private void Awake()
     {
-        _instance = this;
-    }
+        if (Instance != null)
+            Destroy(Instance);
+        else
+            Instance = this;
 
-    private void Start()
-    {
         Initialize();
     }
 
     private void Initialize()
     {
-        UpdateCanvasState(GameManager.Instance.gameState);
-        print("Buradayım");
-    }
-
-    private void Update()
-    {
-        // if (GameManager.Instance.gameState == GameState.START_MENU && Input.anyKey)
-        //     startCanvas.StartGame();
+        InitializeCanvases();
     }
 
     public void UpdateCanvasState(GameState state)
     {
-        ResetCanvases();
         switch (state)
         {
             case GameState.END:
-                endGameCanvas.SetPanelActive(true);
+                _inGameCanvas.SetPanelActive(false);
+
+                _endGameCanvas.SetPanelActive(true);
                 break;
             case GameState.FAIL:
-                failCanvas.SetPanelActive(true);
+                if(!ended)
+                    _failCanvas.SetPanelActive(true);
                 break;
             case GameState.PLAY:
-                inGameCanvas.SetPanelActive(true);
+                _startCanvas.SetPanelActive(false);
+
+                _inGameCanvas.SetPanelActive(true);
                 break;
             case GameState.START_MENU:
-                startCanvas.SetPanelActive(true);
+                _startCanvas.SetPanelActive(true);
+                break;
+            case GameState.LEVEL_TRANSITION:
+                _endGameCanvas.SetPanelActive(false);
+
+                LoadManager.Instance.NextLevel();
+                break;
+            case GameState.RESTART_LEVEL:
+                _endGameCanvas.SetPanelActive(false);
+
+                LoadManager.Instance.RestartLevel();
                 break;
             case GameState.REWARD_MENU:
-                rewardRoomCanvas.SetPanelActive(true);
+                _rewardRoomCanvas.SetPanelActive(true);
                 break;
         }
     }
     
-    private void ResetCanvases()
+    private void InitializeCanvases()
     {
-        if (startCanvas == null)
-            startCanvas = FindObjectOfType<StartCanvas>();
-        
-        if (inGameCanvas == null)
-            inGameCanvas = FindObjectOfType<InGameCanvas>();
-        
-        if (endGameCanvas == null)
-            endGameCanvas = FindObjectOfType<EndGameCanvas>();
-        
-        if (failCanvas == null)
-            failCanvas = FindObjectOfType<FailCanvas>();
-        
-        if (rewardRoomCanvas == null)
-            rewardRoomCanvas = FindObjectOfType<RewardRoomCanvas>();
-        
-        if (startCanvas != null)
-            startCanvas.SetPanelActive(false);
-        
-        if (inGameCanvas != null)
-            inGameCanvas.SetPanelActive(false);
-        
-        if(endGameCanvas != null)
-            endGameCanvas.SetPanelActive(false);
-        
-        if(failCanvas != null)
-            failCanvas.SetPanelActive(false);
-        
-        if(rewardRoomCanvas != null)
-            rewardRoomCanvas.SetPanelActive(false);
+        if (_startCanvas == null)
+            _startCanvas = Instantiate(startCanvasPrefab);
+
+        if (_inGameCanvas == null)
+            _inGameCanvas = Instantiate(inGameCanvasPrefab);
+
+        if (_endGameCanvas == null)
+            _endGameCanvas = Instantiate(endGameCanvasPrefab);
+
+        if (_failCanvas == null)
+            _failCanvas = Instantiate(failCanvasPrefab);
+
+        if (_rewardRoomCanvas == null)
+            _rewardRoomCanvas = Instantiate(rewardRoomCanvasPrefab);
     }
-    
+
+    private void OnDestroy()
+    {
+        if (_startCanvas != null)
+            Destroy(_startCanvas);
+
+        if (_inGameCanvas != null)
+            Destroy(_inGameCanvas);
+
+        if (_endGameCanvas != null)
+            Destroy(_endGameCanvas);
+
+        if (_failCanvas != null)
+            Destroy(_failCanvas);
+
+        if (_rewardRoomCanvas != null)
+            Destroy(_rewardRoomCanvas);
+    }
+
     public void OnApplicationQuit()
     {
         UIManager._instance = null;
+    }
+
+    public void UpdateMoveCountText(int number)
+    {
+        _inGameCanvas.UpdateMoveCountText(number);
     }
 }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
 public class CubePlacer : MonoBehaviour
 {
+    public Transform t;
     private Vector3 defaultCoordinate = new Vector3(-1, -1, -1);
     
     [SerializeField] private Vector3 coordinate = Vector3.zero;
@@ -42,15 +44,23 @@ public class CubePlacer : MonoBehaviour
         coordinate.y = 1;
         if (coordinate.x >= 0 && coordinate.x < col && coordinate.z >= 0 && coordinate.z < row)
         {
-            Instantiate(cubePrefab, coordinate, Quaternion.identity);
+            var cube = PrefabUtility.InstantiatePrefab(cubePrefab as EffectorCube) as EffectorCube;
+            cube.transform.position = coordinate;
         }
     }
 
     private bool TileControl()
     {
-        Tile t = board.GetTile(new Vector3(coordinate.x, 0, coordinate.z));
-        if (t.IsTransparent() || t.IsAvaibleToPut())
-            return true;
+        Vector3 location = new Vector3(coordinate.x, 0, coordinate.z);
+        
+        var hits = Physics.OverlapSphere(location, 0.5f);
+
+        if (hits[0] != null)
+        {
+            Tile t = hits[0].GetComponent<Tile>();
+            if (t.IsTransparent() || t.IsAvaibleToPut())
+                return true;
+        }
         return false;
     }
 
