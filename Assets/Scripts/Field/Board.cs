@@ -141,10 +141,10 @@ public class Board : MonoBehaviour
 
     public void CreateTile(Vector3 currentPos, Tile tilePrefab)
     {
-        var tile = PrefabUtility.InstantiatePrefab(tilePrefab as Tile) as Tile;
-        tile.transform.position = currentPos;
-        tile.transform.SetParent(transform);
-        AddToTiles(tile);
+        //var tile = PrefabUtility.InstantiatePrefab(tilePrefab as Tile) as Tile;
+        //tile.transform.position = currentPos;
+        //tile.transform.SetParent(transform);
+        //AddToTiles(tile);
     }
 
     public void AddToTiles(Tile tile)

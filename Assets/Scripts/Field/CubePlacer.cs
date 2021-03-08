@@ -44,8 +44,8 @@ public class CubePlacer : MonoBehaviour
         coordinate.y = 1;
         if (coordinate.x >= 0 && coordinate.x < col && coordinate.z >= 0 && coordinate.z < row)
         {
-            var cube = PrefabUtility.InstantiatePrefab(cubePrefab as EffectorCube) as EffectorCube;
-            cube.transform.position = coordinate;
+            //var cube = PrefabUtility.InstantiatePrefab(cubePrefab as EffectorCube) as EffectorCube;
+            //cube.transform.position = coordinate;
         }
     }
 

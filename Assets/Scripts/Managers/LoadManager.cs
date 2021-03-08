@@ -12,7 +12,6 @@ public class LoadManager : MonoBehaviour
         get { return _instance; }
         set { _instance = value; }
     }
-
     private void Awake()
     {
         if (Instance != null)

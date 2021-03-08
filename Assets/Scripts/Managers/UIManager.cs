@@ -61,6 +61,8 @@ public class UIManager : MonoBehaviour
                 break;
             case GameState.START_MENU:
                 _startCanvas.SetPanelActive(true);
+
+                _inGameCanvas.SetPanelActive(false);
                 break;
             case GameState.LEVEL_TRANSITION:
                 _endGameCanvas.SetPanelActive(false);

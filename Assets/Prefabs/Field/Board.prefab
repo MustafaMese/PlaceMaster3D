@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2122737090659917610}
   - component: {fileID: 2122737090659917605}
+  - component: {fileID: 8679486364658179997}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -44,9 +45,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles: []
-  rowLength: 0
-  colLength: 0
-  tilePrefab: {fileID: 8927424323376754430, guid: 0d3c1109297375a4e9321fad0f622847,
+  effectorCubes: []
+  bouncerCubes: []
+  bouncerCubePrefab: {fileID: 5104063793135219143, guid: c388f1e91e029e942b63f003e96b61e6,
     type: 3}
-  create: 0
-  delete: 0
+  moveCount: 2
+--- !u!114 &8679486364658179997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2122737090659917604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281f09864d084d0499dd97b0db167341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  board: {fileID: 2122737090659917605}

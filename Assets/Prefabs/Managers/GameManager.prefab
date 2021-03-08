@@ -43,3 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f27f9d875dd06ff4780c6b1fe9fe6206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiManagerPrefab: {fileID: 7940664053528922141, guid: e13f5a741e9ab8645b509eac6869d756,
+    type: 3}
+  loadManagerPrefab: {fileID: 2594514918154363887, guid: d9b2f053a03b8624db1f3a73382c675d,
+    type: 3}
+  coinsManager: {fileID: 4771189377544784487, guid: 8379fca8e6359d949a9b4ad7b3b635b9,
+    type: 3}

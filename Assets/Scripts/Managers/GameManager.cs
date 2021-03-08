@@ -20,9 +20,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] UIManager uiManagerPrefab;
     [SerializeField] LoadManager loadManagerPrefab;
+    [SerializeField] CoinsManager coinsManager;
     
     private void Awake()
     {
+
         if (_instance != null ) 
             Destroy(this.gameObject);
         else
@@ -38,7 +40,6 @@ public class GameManager : MonoBehaviour
     {
         if (!started)
         {
-            print("11");
             started = true;
             Initialize();
         }
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
     {
         Instantiate(uiManagerPrefab);
         Instantiate(loadManagerPrefab);
+        Instantiate(coinsManager);
 
         SetGameState(GameState.START_MENU);
     }
